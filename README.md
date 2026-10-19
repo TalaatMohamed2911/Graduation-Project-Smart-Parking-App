@@ -4,6 +4,8 @@ Rotary Parking is a Flutter mobile application for discovering parking locations
 
 > **Project status:** This is a graduation-project prototype. Reservations and countdowns are stored in app memory, and the **Pay Now** button does not process a real payment. See [Current limitations](#current-limitations) before using this app in production.
 
+[rotary_parking_app.webm](https://github.com/user-attachments/assets/1e7f22b2-94d1-4f06-91f1-d8feeb7c3988)
+
 ## Features
 
 - Google Map displaying parking locations around Helwan, Egypt.
