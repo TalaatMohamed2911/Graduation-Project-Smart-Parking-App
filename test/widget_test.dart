@@ -1,30 +1,35 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:rotary_parking/main.dart';
+import 'package:rotary_parking/bloc/parking_bloc.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('duration updates price and booking marks its slot occupied', () async {
+    final bloc = ParkingBloc();
+    addTearDown(bloc.close);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final durationUpdate = bloc.stream.firstWhere(
+      (state) => state.parkingTimeInMin == 20,
+    );
+    bloc.add(UpdateParkingDurationEvent(20));
+    final updatedState = await durationUpdate;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(updatedState.parkingAmount, 30);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    final bookingUpdate = bloc.stream.firstWhere(
+      (state) => state.slots['2']!.booked,
+    );
+    bloc.add(
+      BookParkingSlotEvent(
+        slotId: '2',
+        name: 'Test Driver',
+        vehicleNumber: 'TEST-123',
+      ),
+    );
+    final bookedState = await bookingUpdate;
+
+    expect(bookedState.slots['2']!.isParked, isTrue);
+    expect(bookedState.slots['2']!.parkingHours, '20');
+    expect(bookedState.confirmation?.name, 'Test Driver');
+    expect(bookedState.confirmation?.vehicleNumber, 'TEST-123');
+    expect(bookedState.confirmation?.amount, 30);
   });
 }

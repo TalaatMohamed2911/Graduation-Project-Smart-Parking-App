@@ -10,7 +10,7 @@
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="flutterEmbedding" android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDhhXoAJDKWWSp0c2R0PYPXLu1Dnw3cfoU" />
+            android:value="AIzaSyCGShAceyIm1LHL2mLja0eKCKDjoZV2RzY" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

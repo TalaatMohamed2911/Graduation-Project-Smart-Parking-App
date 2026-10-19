@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rotary_parking/auth/login.dart';
 import 'package:rotary_parking/auth/profile.dart';
 import 'package:rotary_parking/auth/signup.dart';
+import 'package:rotary_parking/bloc/parking_bloc.dart';
 import 'package:rotary_parking/screens/map_screen.dart';
 import 'package:rotary_parking/screens/splash_screen.dart';
 
@@ -30,15 +31,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-      routes: {
-        "login": (context) => const Login(),
-        "signup": (context) => const SignUp(),
-        "custom_map": (context) => const MapScreen(),
-        "profile": (context) => const Profile(),
-      },
+    return BlocProvider(
+      create: (_) => ParkingBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
+        routes: {
+          "login": (context) => const Login(),
+          "signup": (context) => const SignUp(),
+          "custom_map": (context) => const MapScreen(),
+          "profile": (context) => const Profile(),
+        },
+      ),
     );
   }
 }
