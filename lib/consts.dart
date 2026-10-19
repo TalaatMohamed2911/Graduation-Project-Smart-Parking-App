@@ -1,8 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-final List<Marker> myMarkers = [];
-Map<PolylineId, Polyline> polylines = {};
-
 List<String> images = [
   "assets/images/done.png",
   "assets/images/p_red.png",
@@ -18,4 +15,4 @@ final List<LatLng> positions = <LatLng>[
   const LatLng(29.840697, 31.314976), // تراخيص حلوان
 ];
 
-const String googleMapsApiKey = 'AIzaSyDhhXoAJDKWWSp0c2R0PYPXLu1Dnw3cfoU';
+const String googleMapsApiKey = 'AIzaSyCGShAceyIm1LHL2mLja0eKCKDjoZV2RzY';

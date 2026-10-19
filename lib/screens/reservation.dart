@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rotary_parking/bloc/parking_bloc.dart';
 import 'package:rotary_parking/components/parking_slot_info_window.dart';
-import 'package:rotary_parking/controller/paking_controller.dart';
 
 class ReservationPage extends StatelessWidget {
   const ReservationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ParkingController parkingController = Get.put(ParkingController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -21,108 +20,98 @@ class ReservationPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(5),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Text(
-                "Parking Slots",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(height: 40),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Please select any slot",
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 35, 122, 38)),
-                      ),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
+      body: BlocBuilder<ParkingBloc, ParkingState>(
+        builder: (context, state) => Padding(
+          padding: const EdgeInsets.all(5),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Text(
+                  "Parking Slots",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => ParkingSlot(
-                        isBooked: parkingController.slot1.value.booked,
-                        isParked: parkingController.slot1.value.isParked,
+                ),
+                const SizedBox(height: 40),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          "Please select any slot",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 35, 122, 38)),
+                        ),
+                        Icon(Icons.keyboard_arrow_down)
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ParkingSlot(
+                        isBooked: state.slots['1']!.booked,
+                        isParked: state.slots['1']!.isParked,
                         slotName: "Slot no.1",
                         slotId: "1",
-                        time: parkingController.slot1.value.parkingHours
-                            .toString(),
+                        time: state.slots['1']!.parkingHours,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: VerticalDivider(
-                      color: Colors.blue,
-                      thickness: 1,
+                    const SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: VerticalDivider(
+                        color: Colors.blue,
+                        thickness: 1,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Obx(
-                      () => ParkingSlot(
-                        isBooked: parkingController.slot2.value.booked,
-                        isParked: parkingController.slot2.value.isParked,
+                    Expanded(
+                      child: ParkingSlot(
+                        isBooked: state.slots['2']!.booked,
+                        isParked: state.slots['2']!.isParked,
                         slotName: "Slot no.2",
                         slotId: "2",
-                        time: parkingController.slot2.value.parkingHours
-                            .toString(),
+                        time: state.slots['2']!.parkingHours,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => ParkingSlot(
-                        isBooked: parkingController.slot3.value.booked,
-                        isParked: parkingController.slot3.value.isParked,
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ParkingSlot(
+                        isBooked: state.slots['3']!.booked,
+                        isParked: state.slots['3']!.isParked,
                         slotName: "Slot no.3",
                         slotId: "3",
-                        time: parkingController.slot3.value.parkingHours
-                            .toString(),
+                        time: state.slots['3']!.parkingHours,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: VerticalDivider(
-                      color: Colors.blue,
-                      thickness: 1,
+                    const SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: VerticalDivider(
+                        color: Colors.blue,
+                        thickness: 1,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Obx(
-                      () => ParkingSlot(
-                        isBooked: parkingController.slot4.value.booked,
-                        isParked: parkingController.slot4.value.isParked,
+                    Expanded(
+                      child: ParkingSlot(
+                        isBooked: state.slots['4']!.booked,
+                        isParked: state.slots['4']!.isParked,
                         slotName: "Slot no.4",
                         slotId: "4",
-                        time: parkingController.slot4.value.parkingHours
-                            .toString(),
+                        time: state.slots['4']!.parkingHours,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

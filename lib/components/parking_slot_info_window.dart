@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:rotary_parking/screens/booking_page.dart';
 
 class ParkingSlot extends StatelessWidget {
@@ -60,7 +59,7 @@ class ParkingSlot extends StatelessWidget {
             Expanded(
               child: Image.asset("assets/images/car.png"),
             )
-          else if (isBooked == true)
+          else if (isParked == true)
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,10 +80,14 @@ class ParkingSlot extends StatelessWidget {
               child: Center(
                 child: InkWell(
                   onTap: () {
-                    Get.to(BookingPage(
-                      slotId: slotId,
-                      slotName: slotName.toString(),
-                    ));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => BookingPage(
+                          slotId: slotId,
+                          slotName: slotName.toString(),
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     padding:
