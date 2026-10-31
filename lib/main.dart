@@ -1,41 +1,42 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rotary_parking/auth/login.dart';
+
 import 'package:rotary_parking/auth/profile.dart';
-import 'package:rotary_parking/auth/signup.dart';
 import 'package:rotary_parking/bloc/parking_bloc.dart';
+import 'package:rotary_parking/core/di/service_locator.dart';
+import 'package:rotary_parking/features/auth/presentation/blocs/auth_cubit.dart';
+import 'package:rotary_parking/features/auth/presentation/pages/login.dart';
+import 'package:rotary_parking/features/auth/presentation/pages/signup.dart';
+import 'package:rotary_parking/firebase_options.dart';
 import 'package:rotary_parking/screens/map_screen.dart';
-import 'package:rotary_parking/screens/splash_screen.dart';
 
 void main() async {
+  initServiceLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: 'AIzaSyD8ye5q0Be4MNA_OoRVAuyLfat1mJ0ybY8',
-      appId: '1:514714792399:android:dfb3bbda6a8b5ed3dd62ba',
-      messagingSenderId: '514714792399',
-      projectId: 'rotary-parking',
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ParkingBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<AuthCubit>()..init(),
+        ),
+        BlocProvider(
+          create: (context) => sl<ParkingBloc>(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        home: const MapScreen(),
         routes: {
           "login": (context) => const Login(),
           "signup": (context) => const SignUp(),
